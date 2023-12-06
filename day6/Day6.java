@@ -53,9 +53,15 @@ public class Day6 {
     }
 
     // Calculate number of ways to beat record for one long race
-    // Use quadratic formula to found upper and lower bounds
-    // All numbers between these bounds will beat the record
+    // Use quadratic formula to find upper and lower bounds for time held that beats
+    // the record. All whole numbers between these bounds will beat the record
     private static double partTwo(double time, double distance) {
+        // Based off of solution to part one...
+        // distance = time held * (total time - time held)
+        // d = h * (t - h)
+        // d = th - h**2
+        // h**2 - th + d = 0
+        // Use quadratic formula to figure out where time held ties record distance
         double upperHeld = (time + Math.sqrt((time * time) - (4 * distance))) / 2;
         double lowerHeld = (time - Math.sqrt((time * time) - (4 * distance))) / 2;
         return Math.floor(upperHeld) - Math.ceil(lowerHeld) + 1; // Only count whole numbers and add one for offset
