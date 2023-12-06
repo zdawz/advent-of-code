@@ -62,7 +62,7 @@ public class Day6 {
         return waysToWin;
 
         // I got some help from reddit with the code below. But I realized my
-        // un-optimized solution works too, so I'll keep both.
+        // unoptimized solution works too, so I'll keep both.
         // Use quadratic formula to find upper and lower bounds for time held that ties
         // the record. All whole numbers between these bounds will beat the record.
         // distance = time held * (total time - time held)
