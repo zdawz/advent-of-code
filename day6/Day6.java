@@ -30,8 +30,6 @@ public class Day6 {
         System.out.println("Part Two Answer: " + String.format("%.0f", partTwo(time, distance)));
     }
 
-    // Calculate number of ways to beat record for each race
-    // Assume times and distances arrays are of equal length
     private static int partOne(Integer[] times, Integer[] distances) {
         int[] waysToWin = new int[times.length];
         for (int i = 0; i < times.length; i++) {
@@ -52,18 +50,27 @@ public class Day6 {
         return product;
     }
 
-    // Calculate number of ways to beat record for one long race
-    // Use quadratic formula to find upper and lower bounds for time held that beats
-    // the record. All whole numbers between these bounds will beat the record
-    private static double partTwo(double time, double distance) {
-        // Based off of solution to part one...
+    private static double partTwo(double time, double record) {
+        int waysToWin = 0;
+        for (double timeHeld = 0; timeHeld <= time; timeHeld++) {
+            double timeLeft = time - timeHeld;
+            double distance = timeHeld * timeLeft;
+            if (distance > record) {
+                waysToWin++;
+            }
+        }
+        return waysToWin;
+
+        // I got some help from reddit with the code below. But I realized my
+        // un-optimized solution works too, so I'll keep both.
+        // Use quadratic formula to find upper and lower bounds for time held that ties
+        // the record. All whole numbers between these bounds will beat the record.
         // distance = time held * (total time - time held)
         // d = h * (t - h)
         // d = th - h**2
         // h**2 - th + d = 0
-        // Use quadratic formula to figure out where time held ties record distance
-        double upperHeld = (time + Math.sqrt((time * time) - (4 * distance))) / 2;
-        double lowerHeld = (time - Math.sqrt((time * time) - (4 * distance))) / 2;
-        return Math.floor(upperHeld) - Math.ceil(lowerHeld) + 1; // Only count whole numbers and add one for offset
+        // double upperHeld = (time + Math.sqrt((time * time) - (4 * distance))) / 2;
+        // double lowerHeld = (time - Math.sqrt((time * time) - (4 * distance))) / 2;
+        // return Math.floor(upperHeld) - Math.ceil(lowerHeld) + 1;
     }
 }
