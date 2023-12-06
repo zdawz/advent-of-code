@@ -35,10 +35,10 @@ public class Day5 {
 
         // Part 2
         minLocation = Double.MAX_VALUE;
-        String[][] seedsWithRanges = getSeedsWithRanges(seeds);
-        for (String[] seedAndRange : seedsWithRanges) {
-            double startSeed = Double.parseDouble(seedAndRange[0]);
-            double range = Double.parseDouble(seedAndRange[1]);
+        double[][] seedsWithRanges = getSeedsWithRanges(seeds);
+        for (double[] seedAndRange : seedsWithRanges) {
+            double startSeed = seedAndRange[0];
+            double range = seedAndRange[1];
             for (double seed = startSeed; seed < startSeed + range; seed++) {
                 double src = seed;
                 for (String[] map : maps) {
@@ -73,16 +73,16 @@ public class Day5 {
         return -1;
     }
 
-    private static String[][] getSeedsWithRanges(String[] seeds) {
+    private static double[][] getSeedsWithRanges(String[] seeds) {
         // Turn 1D Seeds array into 2D array with seeds and ranges
         int rows = seeds.length / 2;
         int columns = 2;
-        String[][] seedsWithRanges = new String[rows][columns];
+        double[][] seedsWithRanges = new double[rows][columns];
 
         int index = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                seedsWithRanges[i][j] = seeds[index++];
+                seedsWithRanges[i][j] = Double.parseDouble(seeds[index++]);
             }
         }
 
