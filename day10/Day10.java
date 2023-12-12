@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class Day10 {
-    private final char NORTH = 'N';
-    private final char SOUTH = 'S';
-    private final char EAST = 'E';
-    private final char WEST = 'W';
-
     public static void main(String[] args) throws IOException {
         // Read input
         Path inputPath = Paths.get("day10/test.txt");
@@ -30,76 +26,93 @@ public class Day10 {
             grid[i] = line.toCharArray();
         }
 
-        HashMap<Character, List<Character>> pipes = new HashMap<>();
-        pipes.put('|', Arrays.asList('N', 'S'));
-        pipes.put('-', Arrays.asList('E', 'W'));
-        pipes.put('L', Arrays.asList('N', 'E'));
-        pipes.put('J', Arrays.asList('N', 'W'));
-        pipes.put('7', Arrays.asList('W', 'W'));
-        pipes.put('F', Arrays.asList('S', 'E'));
-        pipes.put('.', Arrays.asList());
-        pipes.put('S', Arrays.asList('N', 'S', 'E', 'W'));
+        final char NORTH = 'N';
+        final char SOUTH = 'S';
+        final char EAST = 'E';
+        final char WEST = 'W';
 
-        // Count the total steps in the loop
-        int steps = 1;
-        int[] nextTile = getNextTile(grid, pipes, startRow, startCol, null);
-        int row = nextTile[0];
-        int col = nextTile[1];
-        while (grid[row][col] != 'S') {
-            nextTile = getNextTile(grid, pipes, row, col, );
-            row = nextTile[0];
-            col = nextTile[1];
+        HashMap<Character, List<Character>> pipes = new HashMap<>();
+        pipes.put('|', Arrays.asList(NORTH, SOUTH));
+        pipes.put('-', Arrays.asList(EAST, WEST));
+        pipes.put('L', Arrays.asList(NORTH, EAST));
+        pipes.put('J', Arrays.asList(NORTH, WEST));
+        pipes.put('7', Arrays.asList(SOUTH, WEST));
+        pipes.put('F', Arrays.asList(SOUTH, EAST));
+        pipes.put('.', Arrays.asList());
+        pipes.put('S', Arrays.asList(NORTH, SOUTH, EAST, WEST));
+
+        // Find the loop and count the total steps in it
+        int steps = 0;
+        int row = startRow;
+        int col = startCol;
+        char prevDir = NORTH;
+        List<List<Integer>> loopCoords = new ArrayList<>();
+        while (!(grid[row][col] == 'S' && steps > 0)) {
+            List<Integer> coords = new ArrayList<>();
+            coords.add(row);
+            coords.add(col);
+            loopCoords.add(coords);
+            List<Character> dirs = pipes.get(grid[row][col]);
+            for (char dir : dirs) {
+                if (dir == NORTH && prevDir != NORTH) {
+                    int newRow = row == 0 ? row : row - 1;
+                    if (pipes.get(grid[newRow][col]).contains(SOUTH)) {
+                        row = newRow;
+                        prevDir = SOUTH;
+                        break;
+                    }
+                } else if (dir == SOUTH && prevDir != SOUTH) {
+                    int newRow = row == grid.length - 1 ? row : row + 1;
+                    if (pipes.get(grid[newRow][col]).contains(NORTH)) {
+                        row = newRow;
+                        prevDir = NORTH;
+                        break;
+                    }
+                } else if (dir == EAST && prevDir != EAST) {
+                    int newCol = col == grid[0].length - 1 ? col : col + 1;
+                    if (pipes.get(grid[row][newCol]).contains(WEST)) {
+                        col = newCol;
+                        prevDir = WEST;
+                        break;
+                    }
+                } else if (dir == WEST && prevDir != WEST) {
+                    int newCol = col == 0 ? col : col - 1;
+                    if (pipes.get(grid[row][newCol]).contains(EAST)) {
+                        col = newCol;
+                        prevDir = EAST;
+                        break;
+                    }
+                }
+            }
             steps++;
         }
 
-        System.out.println(steps);
+        System.out.println(loopCoords);
 
-        // Furthest you can go is halfway
-        steps = Math.ceilDiv(steps, 2);
-
-        System.out.println(steps);
-    }
-
-    private static boolean checkNorth(char[][] grid, HashMap<Character, List<Character>> pipes, int row, int col) {
-        if (row != 0 && pipes.get(grid[row - 1][col]).contains('S')) {
-            return true;
+        // Iterate through entire grid to count tiles enclosed in the loop
+        int tilesInLoop = 0;
+        List<Integer> coords = new ArrayList<>();
+        for (int i = 0; i < grid.length; i++) {
+            boolean countTiles = false;
+            for (int j = 0; j < grid[i].length; j++) {
+                coords.add(i);
+                coords.add(j);
+                boolean onLoopTile = false;
+                for (List<Integer> c : loopCoords) {
+                    if (coords.equals(c)) {
+                        onLoopTile = true;
+                    }
+                }
+                if (onLoopTile) {
+                    countTiles = !countTiles;
+                } else if (countTiles) {
+                    tilesInLoop++;
+                }
+                coords.clear();
+            }
         }
-        return false;
-    }
 
-    private static boolean checkSouth(char[][] grid, HashMap<Character, List<Character>> pipes, int row, int col) {
-        if (row != grid.length - 1 && pipes.get(grid[row - 1][col]).contains('N')) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean checkEast(char[][] grid, HashMap<Character, List<Character>> pipes, int row, int col) {
-        if (col != grid[0].length - 1 && pipes.get(grid[row][col + 1]).contains('W')) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean checkWest(char[][] grid, HashMap<Character, List<Character>> pipes, int row, int col) {
-        if (col != 0 && pipes.get(grid[row][col - 1]).contains('E')) {
-            return true;
-        }
-        return false;
-    }
-
-    private static int[] getNextTile(char[][] grid, HashMap<Character, List<Character>> pipes, int row, int col,
-            char tile) {
-        int nextRow = row;
-        int nextCol = col;
-
-        // Define rows and columns
-        int northRow = row - 1;
-        int southRow = row + 1;
-        int eastCol = col + 1;
-        int westCol = col - 1;
-
-        List<Character> validDirectons = pipes.get(grid[row][col]);
-
+        System.out.println("Part One Answer: " + Math.ceilDiv(steps, 2));
+        System.out.println("Part Two Answer: " + tilesInLoop);
     }
 }
