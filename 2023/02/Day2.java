@@ -51,7 +51,7 @@ public class Day2 {
 
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day2/input.txt");
+        Path inputPath = Paths.get("2023/02/input.txt");
         List<String> games = Files.readAllLines(inputPath);
         // Initialize variables
         int possibleGamesSum = 0;

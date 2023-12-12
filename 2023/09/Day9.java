@@ -9,7 +9,7 @@ import java.util.List;
 public class Day9 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day9/input.txt");
+        Path inputPath = Paths.get("2023/09/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
 
         // Find sum of extrapolated values

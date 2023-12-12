@@ -8,7 +8,7 @@ import java.util.List;
 public class Day11 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day11/test.txt");
+        Path inputPath = Paths.get("2023/11/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
 
         // Initialize variables

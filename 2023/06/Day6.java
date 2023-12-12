@@ -8,7 +8,7 @@ import java.util.List;
 public class Day6 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day6/input.txt");
+        Path inputPath = Paths.get("2023/06/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
         String timeLine = lines.get(0).replaceAll("Time:\\s+", "");
         String distanceLine = lines.get(1).replaceAll("Distance:\\s+", "");

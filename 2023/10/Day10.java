@@ -10,7 +10,7 @@ import java.util.List;
 public class Day10 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day10/test.txt");
+        Path inputPath = Paths.get("2023/10/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
         char[][] grid = new char[lines.size()][];
         int startRow = 0, startCol = 0;

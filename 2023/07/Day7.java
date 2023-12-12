@@ -11,7 +11,7 @@ import java.util.Map;
 public class Day7 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day7/input.txt");
+        Path inputPath = Paths.get("2023/07/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
         HashMap<String, Integer> hands = new HashMap<>();
 

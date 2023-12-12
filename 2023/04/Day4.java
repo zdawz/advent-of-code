@@ -8,7 +8,7 @@ import java.util.List;
 public class Day4 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day4/input.txt");
+        Path inputPath = Paths.get("2023/04/input.txt");
         List<String> cards = Files.readAllLines(inputPath);
 
         // Iterate over cards

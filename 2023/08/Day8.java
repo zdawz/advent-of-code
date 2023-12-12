@@ -9,7 +9,7 @@ import java.util.List;
 public class Day8 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day8/input.txt");
+        Path inputPath = Paths.get("2023/08/input.txt");
         List<String> lines = Files.readAllLines(inputPath);
         char[] instructions = lines.remove(0).toCharArray();
         lines.remove(0); // Remove empty line

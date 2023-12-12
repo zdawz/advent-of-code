@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 public class Day5 {
     public static void main(String[] args) throws IOException {
         // Read input
-        Path inputPath = Paths.get("day5/input.txt");
+        Path inputPath = Paths.get("2023/05/input.txt");
         String almanac = Files.readString(inputPath);
 
         // Convert the almanac into a list of seeds and a list of maps
