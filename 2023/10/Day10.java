@@ -84,21 +84,23 @@ public class Day10 {
             }
             steps++;
         }
+        // The furthest tile is halfway through the loop
+        int furthestTileSteps = Math.ceilDiv(steps, 2);
 
-        System.out.println(loopCoords);
-
-        // Iterate through entire grid to count tiles enclosed in the loop
+        // Count tiles enclosed in the loop
         int tilesInLoop = 0;
-        List<Integer> coords = new ArrayList<>();
         for (int i = 0; i < grid.length; i++) {
             boolean countTiles = false;
-            for (int j = 0; j < grid[i].length; j++) {
+            int lineLength = grid[i].length;
+            for (int j = 0; j < lineLength; j++) {
+                List<Integer> coords = new ArrayList<>();
                 coords.add(i);
                 coords.add(j);
                 boolean onLoopTile = false;
                 for (List<Integer> c : loopCoords) {
                     if (coords.equals(c)) {
                         onLoopTile = true;
+                        break;
                     }
                 }
                 if (onLoopTile) {
@@ -106,11 +108,10 @@ public class Day10 {
                 } else if (countTiles) {
                     tilesInLoop++;
                 }
-                coords.clear();
             }
         }
 
-        System.out.println("Part One Answer: " + Math.ceilDiv(steps, 2));
+        System.out.println("Part One Answer: " + furthestTileSteps);
         System.out.println("Part Two Answer: " + tilesInLoop);
     }
 }
