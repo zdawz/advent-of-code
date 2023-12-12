@@ -16,9 +16,13 @@ public class Day12 {
             String[] lineParts = line.split(" ");
             char[] springs = lineParts[0].toCharArray();
             int[] damaged = Arrays.stream(lineParts[1].split(",")).mapToInt(Integer::parseInt).toArray();
-            System.out.println(Arrays.toString(springs));
-            System.out.println(Arrays.toString(damaged));
+            totalArrangements += countArrangements(springs, damaged);
         }
         System.out.println("Part One Answer: " + totalArrangements);
+    }
+
+    private static int countArrangements(char[] springs, int[] damaged) {
+        System.out.println(Arrays.toString(springs) + " " + Arrays.toString(damaged));
+        return 0;
     }
 }
