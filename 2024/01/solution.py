@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def part_one():
     list1, list2 = [], []
     with open("2024/01/input.txt") as file:

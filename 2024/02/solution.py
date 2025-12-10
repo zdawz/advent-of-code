@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def part_one():
     reports = []
     with open("2024/02/input.txt") as file:

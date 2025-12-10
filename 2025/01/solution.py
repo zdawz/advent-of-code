@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def part_one(rotations):
     dial = 50
     zeroes = 0
